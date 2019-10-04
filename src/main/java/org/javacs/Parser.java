@@ -634,19 +634,25 @@ class Parser {
     }
 
     List<SymbolInformation> findSymbolsMatching(String query) {
-        List<TreePath> found = new ArrayList<>();
+        ArrayList<TreePath> found = new ArrayList<TreePath>();
         class Find extends TreePathScanner<Void, Void> {
             void accept(TreePath path) {
                 var node = path.getLeaf();
                 if (node instanceof ClassTree) {
                     var c = (ClassTree) node;
-                    if (StringSearch.matchesTitleCase(c.getSimpleName(), query)) found.add(path);
+                    if (StringSearch.matchesTitleCase(c.getSimpleName(), query)) {
+                        found.add(path);
+                    }
                 } else if (node instanceof MethodTree) {
                     var m = (MethodTree) node;
-                    if (StringSearch.matchesTitleCase(m.getName(), query)) found.add(path);
+                    if (StringSearch.matchesTitleCase(m.getName(), query)) {
+                        found.add(path);
+                    }
                 } else if (node instanceof VariableTree) {
                     var v = (VariableTree) node;
-                    if (StringSearch.matchesTitleCase(v.getName(), query)) found.add(path);
+                    if (StringSearch.matchesTitleCase(v.getName(), query)) {
+                        found.add(path);
+                    }
                 }
             }
 
@@ -682,6 +688,7 @@ class Parser {
         i.name = symbolName(t);
         i.containerName = containerName(path);
         i.location = l.get();
+
         acc.add(i);
     }
 
