@@ -11,17 +11,8 @@ fi
 if [ ! -e jdks/linux/jdk-13 ]; then
     ./scripts/download_linux_jdk.sh
 fi
-if [ ! -e jdks/windows/jdk-13 ]; then
-    ./scripts/download_windows_jdk.sh
-fi
 if [ ! -e dist/linux/bin/java ]; then
     ./scripts/link_linux.sh
-fi
-if [ ! -e dist/windows/bin/java.exe ]; then
-    ./scripts/link_windows.sh
-fi
-if [ ! -e dist/mac/bin/java ]; then
-    ./scripts/link_mac.sh
 fi
 
 # Compile sources
@@ -31,9 +22,3 @@ fi
 ./scripts/format.sh
 mvn package -DskipTests
 
-# Build vsix
-npm run-script vscode:build
-
-code --install-extension build.vsix --force
-
-echo 'Reload VSCode to update extension'
