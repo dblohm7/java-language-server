@@ -592,26 +592,8 @@ class Parser {
             // If field has annotations, skip over them
             if (!field.getModifiers().getAnnotations().isEmpty())
                 start = (int) pos.getEndPosition(root, field.getModifiers());
+        }
 
-            // Find position of method name
-            var name = field.getName().toString();
-            start = indexOf(contents, name, start);
-            if (start == -1) {
-                LOG.warning(String.format("Couldn't find identifier `%s` in `%s`", name, path.getLeaf()));
-                return Optional.empty();
-            }
-            end = start + name.length();
-        }
-        if (path.getLeaf() instanceof MemberSelectTree) {
-            var member = (MemberSelectTree) path.getLeaf();
-            var name = member.getIdentifier().toString();
-            start = indexOf(contents, name, start);
-            if (start == -1) {
-                LOG.warning(String.format("Couldn't find identifier `%s` in `%s`", name, path.getLeaf()));
-                return Optional.empty();
-            }
-            end = start + name.length();
-        }
         var startLine = (int) lines.getLineNumber(start);
         var startCol = (int) lines.getColumnNumber(start);
         var endLine = (int) lines.getLineNumber(end);
