@@ -658,7 +658,8 @@ class Parser {
 
             @Override
             public Void visitClass(ClassTree node, Void nothing) {
-                super.visitClass(node, nothing);
+                // NB: Do NOT call super.visitClass, as that will visit the
+                // child classes which we are manually doing here!
                 accept(getCurrentPath());
                 for (var t : node.getMembers()) {
                     var child = new TreePath(getCurrentPath(), t);
