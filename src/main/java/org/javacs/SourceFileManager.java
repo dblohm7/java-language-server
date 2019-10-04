@@ -112,5 +112,5 @@ class SourceFileManager extends ForwardingJavaFileManager<StandardJavaFileManage
         fileManager.setLocationFromPaths(location, searchpath);
     }
 
-    private static final Logger LOG = Logger.getLogger("main");
+    private static final Logger LOG = Logger.getLogger("org.javacs.main");
 }

@@ -6,12 +6,11 @@ import java.util.logging.Logger;
 import org.javacs.lsp.*;
 
 public class Main {
-    private static final Logger LOG = Logger.getLogger("main");
+    private static final Logger ROOT_LOG = Logger.getLogger("org.javacs");
+    private static final Logger LOG = Logger.getLogger("org.javacs.main");
 
     public static void setRootFormat() {
-        var root = Logger.getLogger("");
-
-        for (var h : root.getHandlers()) h.setFormatter(new LogFormat());
+        for (var h : ROOT_LOG.getHandlers()) h.setFormatter(new LogFormat());
     }
 
     public static void main(String[] args) {

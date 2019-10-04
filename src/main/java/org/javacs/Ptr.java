@@ -246,7 +246,7 @@ class Ptr {
         return s.toString();
     }
 
-    private static final Logger LOG = Logger.getLogger("main");
+    private static final Logger LOG = Logger.getLogger("org.javacs.main");
 }
 
 class PtrAdapter implements JsonSerializer<Ptr>, JsonDeserializer<Ptr> {

@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 class InferConfig {
-    private static final Logger LOG = Logger.getLogger("main");
+    private static final Logger LOG = Logger.getLogger("org.javacs.main");
 
     /** Root of the workspace that is currently open in VSCode */
     private final Path workspaceRoot;
