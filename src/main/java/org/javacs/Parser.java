@@ -620,12 +620,7 @@ class Parser {
         class Find extends TreePathScanner<Void, Void> {
             void accept(TreePath path) {
                 var node = path.getLeaf();
-                if (node instanceof ClassTree) {
-                    var c = (ClassTree) node;
-                    if (StringSearch.matchesTitleCase(c.getSimpleName(), query)) {
-                        found.add(path);
-                    }
-                } else if (node instanceof MethodTree) {
+                if (node instanceof MethodTree) {
                     var m = (MethodTree) node;
                     if (StringSearch.matchesTitleCase(m.getName(), query)) {
                         found.add(path);
@@ -640,14 +635,16 @@ class Parser {
 
             @Override
             public Void visitClass(ClassTree node, Void nothing) {
-                // NB: Do NOT call super.visitClass, as that will visit the
-                // child classes which we are manually doing here!
-                accept(getCurrentPath());
+                if (StringSearch.matchesTitleCase(node.getSimpleName(), query)) {
+                    found.add(getCurrentPath());
+                }
+
                 for (var t : node.getMembers()) {
                     var child = new TreePath(getCurrentPath(), t);
                     accept(child);
                 }
-                return null;
+
+                return super.visitClass(node, nothing);
             }
 
             void run() {
