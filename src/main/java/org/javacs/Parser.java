@@ -578,15 +578,6 @@ class Parser {
             // If class has annotations, skip over them
             if (!cls.getModifiers().getAnnotations().isEmpty())
                 start = (int) pos.getEndPosition(root, cls.getModifiers());
-
-            // Find position of class name
-            var name = cls.getSimpleName().toString();
-            start = indexOf(contents, name, start);
-            if (start == -1) {
-                LOG.warning(String.format("Couldn't find identifier `%s` in `%s`", name, path.getLeaf()));
-                return Optional.empty();
-            }
-            end = start + name.length();
         }
         if (path.getLeaf() instanceof MethodTree) {
             var method = (MethodTree) path.getLeaf();
@@ -594,18 +585,6 @@ class Parser {
             // If method has annotations, skip over them
             if (!method.getModifiers().getAnnotations().isEmpty())
                 start = (int) pos.getEndPosition(root, method.getModifiers());
-
-            // Find position of method name
-            var name = method.getName().toString();
-            if (name.equals("<init>")) {
-                name = className(path);
-            }
-            start = indexOf(contents, name, start);
-            if (start == -1) {
-                LOG.warning(String.format("Couldn't find identifier `%s` in `%s`", name, path.getLeaf()));
-                return Optional.empty();
-            }
-            end = start + name.length();
         }
         if (path.getLeaf() instanceof VariableTree) {
             var field = (VariableTree) path.getLeaf();
