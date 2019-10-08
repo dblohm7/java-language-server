@@ -618,33 +618,31 @@ class Parser {
     List<SymbolInformation> findSymbolsMatching(String query) {
         ArrayList<TreePath> found = new ArrayList<TreePath>();
         class Find extends TreePathScanner<Void, Void> {
-            void accept(TreePath path) {
-                var node = path.getLeaf();
-                if (node instanceof MethodTree) {
-                    var m = (MethodTree) node;
-                    if (StringSearch.matchesTitleCase(m.getName(), query)) {
-                        found.add(path);
-                    }
-                } else if (node instanceof VariableTree) {
-                    var v = (VariableTree) node;
-                    if (StringSearch.matchesTitleCase(v.getName(), query)) {
-                        found.add(path);
-                    }
-                }
-            }
-
             @Override
             public Void visitClass(ClassTree node, Void nothing) {
                 if (StringSearch.matchesTitleCase(node.getSimpleName(), query)) {
                     found.add(getCurrentPath());
                 }
 
-                for (var t : node.getMembers()) {
-                    var child = new TreePath(getCurrentPath(), t);
-                    accept(child);
+                return super.visitClass(node, nothing);
+            }
+
+            @Override
+            public Void visitMethod(MethodTree node, Void nothing) {
+                if (StringSearch.matchesTitleCase(node.getName(), query)) {
+                    found.add(getCurrentPath());
                 }
 
-                return super.visitClass(node, nothing);
+                return super.visitMethod(node, nothing);
+            }
+
+            @Override
+            public Void visitVariable(VariableTree node, Void nothing) {
+                if (StringSearch.matchesTitleCase(node.getName(), query)) {
+                    found.add(getCurrentPath());
+                }
+
+                return super.visitVariable(node, nothing);
             }
 
             void run() {
